@@ -1,0 +1,379 @@
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+
+<div class="header-main"> 
+    <div class="container">
+      <div class="search-box"> <span>Finding A</span> <strong style="font-size: 32px;">Prayer Place</strong> <span>Made Simple</span>
+      <form action="<%= versions_path %>" method="get">
+        <div class="form-row clearfix">
+          <input type="text" class="form-control" id="name" name="name" placeholder="Enter your building name or street name">
+        </div>
+        <div class="form-row clearfix">
+          <input type="text" class="form-control city" id="city" name="city" placeholder="Enter City">
+          <input type="text" class="form-control country" value="" id="country" name="country" placeholder="Enter Country">
+          <input type="submit" class="form-submit" id="" value="">
+        </div>
+      </form>
+      </div>
+    </div>
+</div>
+<!-- <input  id="mynamedb" hidden="true" value=''> -->
+<script type="text/javascript">
+var requestUrl = "http://ip-api.com/json";
+
+$.ajax({
+  url: requestUrl,
+  type: 'GET',
+  success: function(json)
+  {
+    document.getElementById("country").value = json.country;
+    console.log("My country is: " + json.country);
+  },
+  error: function(err)
+  {
+    console.log("Request failed, error= " + err);
+  }
+});
+</script>
+<!-- document.getElementById("mynamedb").value -->
+<script>
+  $(function() {
+       
+    var availableTags = [
+  "Singapore Safety Driving Centre",
+  "SSDC",
+  "Tampines Mall",
+  "Temasek Polytechnic",
+  "IKEA Tampines",
+  "Changi Airport Cargo Complex",
+  "Changi Airport Terminal 1",
+  "Changi Airport Terminal 2",
+  "Changi Airport Terminal 3",
+  "Changi General Hospital",
+  "Darul Arqam Singapore",
+  "Downtown East",
+  "Guthrie Building",
+  "Lagun Sari",
+  "Singapore Institute of Management (SIM)",
+  "National University Hospital (NUH)",
+  "German Centre",
+  "Ghim Moh Road",
+  "IMM Building",
+  "Institute of Public Administration and Management (IPAM) @ Civil Service College",
+  "Suntec City/ Millenia Walk Basement",
+  "Marina Square",
+  "Royal Plaza",
+  "Furama Hotel (River Front)",
+  "Singapore General Hospital (SGH) Mosque",
+  "IKEA Alexandra",
+  "Serangoon Junior College",
+  "ComfortDelGro Driving Centre",
+  "Queensway Shopping Centre",
+  "Peninsula Plaza",
+  "Thomson Medical Centre",
+  "Wisma Atria",
+  "KK Women's and Children's Hospital",
+  "Raffles City Shopping Centre",
+  "Mount Elizabeth Novena Hospital",
+  "Mt Elizabeth Novena Hospital",
+  "Esplanade",
+  "The Adelphi",
+  "Anson House",
+  "Bestway Building",
+  "Bishan Stadium",
+  "Clifford Centre",
+  "Cycle & Carriage (Mitsubishi)",
+  "DBS Building",
+  "Environment Building",
+  "Four Seasons Hotel",
+  "Furama City Centre",
+  "Gleneagles Hospital",
+  "Goodwood Park Hotel",
+  "Golden Shoe Car Park And Market Street Food",
+  "Grand Hyatt Singapore",
+  "International Plaza",
+  "Plaza Singapura",
+  "BBDC",
+  "Causeway Point Shopping Centre",
+  "Universal Studio Singapore",
+  "IMM Prayer Room Sign",
+  "Beach Station (Sentosa)",
+  "Beach Station",
+  "Harbourfront Centre",
+  "Haw Par Technocentre",
+  "Hong Leong Building",
+  "IMM Ablution Room",
+  "Woodlands Civic Centre",
+  "IMM Pyaer Room Sign",
+  "Days Hotel Singapore",
+  "Raffles Hospital",
+  "Geylang Serai",
+  "Sufia",
+  "toko warisan",
+  "New Tech Park",
+  "new tech park",
+  "Grandlink Square",
+  "prayer room grandlink",
+  "chill by the river cafe",
+  "Bukit Batok Driving Centre",
+  "North Point Mall",
+  "Kaplan Pomo Centre",
+  "Fairmont Hotel",
+  "UE Bizhub East",
+  "Universal Studios Singapore ( USS )",
+  "Tan Tock Seng Hospital ( TTSH )",
+  "Jurong Point",
+  "Bulkhaul House",
+  "The Star Vista",
+  "Beach Station (RWS)",
+  "Marina Bay Financial Centre Tower 1",
+  "Republic Plaza",
+  "Science Centre",
+  "Keppel Bay Tower",
+  "Kallang Wave Mall",
+  "Lucky Plaza",
+  "Gardens By The Bay",
+  "Musollah Entrance",
+  "Shoe Rack",
+  "Beach Station Prayer Room",
+  "Beach Station Car Park Entrance",
+  "SGH staff car park",
+  "DUKE NUS",
+  "Houseman's Canteen",
+  "Direction to the prayer corner at Kallang Wave mall",
+  "Prayer Room Kallang Wave mall",
+  "Prayer corner door at Kallang Wave mall",
+  "Asian Market Cafe",
+  "Asian Market Cafe Corridor",
+  "Prayer Room Entrance for Ladies",
+  "Ladies prayer room",
+  "Khoo Teck Puat Hospital (KTPH)",
+  "Waiting Room Tower B",
+  "2",
+  "Prayer Room Signage",
+  "Terminal 1 Arrival Hall",
+  "Multi Religion Prayer Room",
+  "Prayer Room Instruction",
+  "Prayer Room Shoe Rack",
+  "Prayer Room Seats",
+  "Terminal 1 Ablution Area",
+  "Terminal 1 Prayer Room",
+  "Prayer Mats",
+  "Curtain Separator",
+  "Bedok Community Library",
+  "Nanyang Polytechnic",
+  "NYP",
+  "Jurong Point Prayer Room Not For Public",
+  "Peloton Coffee & Juice Bar",
+  "Peloton Coffe and Juice Bar",
+  "Peloton Entrance",
+  "Swee Lee",
+  "Second Level Exit",
+  "After Exit",
+  "Sejadah",
+  "Big Box",
+  "bigbox",
+  "Kublai Khan International & Mongolian Restaurant",
+  "Kublai Khan International Restaurant",
+  "Park Mall",
+  "Pasir Ris Sports and Recreation Centre",
+  "Loading bay",
+  "service lift",
+  "prayer corner",
+  "Regent Singapore",
+  "Valore",
+  "Level Directory",
+  "L3 Lift Lobby",
+  "Toilet Corridor",
+  "Prayer Room",
+  "Prayer Mat Corridor",
+  "Prayer Mats Big Box",
+  "Prayer Room Passageway",
+  "Muslimah Prayer Room",
+  "Regent Singapore Entrance",
+  "Regent Singapore Prayer Room",
+  "Search",
+  "Prayer Room Search",
+  "Google Search",
+  "Parkway East Hospital",
+  "Parjway East Hospital Entrance",
+  "Prayer Room Entrance",
+  "Prayer Room View",
+  "nuh",
+  "A & E",
+  "A & E Waiting Area",
+  "Staircase 5",
+  "Telekung and Sejadah",
+  "Kiblah Marking",
+  "Gleneagles Staircase Landing",
+  "Gleneagles Prayer Corner",
+  "Invest",
+  "NEX",
+  "Bukit Panjang Plaza",
+  "Singapore University of Technology and Design ( SUTD )" ];
+
+    console.log(availableTags);
+    $( "#name" ).autocomplete({
+      source: availableTags
+    });
+  });
+  </script>
+
+<div class="container">
+    <section class="section">
+    <div class="row">
+    <% count = 0 %>
+    <% Version.better.decending.each do |fversion| %>
+      <% if count < 4 %>
+      <% if fversion.photos.first.image_url.present? || fversion.photos.first.photo_url.match('.jpg') %>
+        <% count += 1 %>
+        <div class="img-box col-md-3 col-sm-6 col-xs-6"> 
+            <% if fversion.photos.first.cloud %>
+              <img src="<%= fversion.photos.first.image_url %>" width="234" height="232" alt="image descraption"> 
+            <% else %>
+              <img src="<%= fversion.photos.first.photo_url %>" width="234" height="232" alt="image descraption"> 
+            <% end %>
+            <p><%= link_to truncate(fversion.name, :length => 30) , version_path(fversion) , method: :get  , class: 'a-tag-text ' %></p>
+        </div>
+      <% end %>
+      <% end %>
+    <% end %>
+    <!-- <div class="img-box col-md-3 col-sm-6 col-xs-6"> 
+      <% if Version.better.decending.second.present? %>
+        <% firstB = Version.better.decending.second %>
+        <% if firstB.photos.first.cloud %>
+          <img src="<%= firstB.photos.first.image_url %>" width="234" height="232" alt="image descraption"> 
+        <% else %>
+          <img src="<%= firstB.photos.first.photo_url %>" width="234" height="232" alt="image descraption"> 
+        <% end %>
+        <p><%= link_to firstB.name , version_path(firstB) , method: :get  , class: 'a-tag-text'%></p>
+      <% else %>
+        <img src="images/img03.jpg" width="234" height="232" alt="image descraption">
+        <p>Prayer area</p>  
+      <% end %>
+    </div>
+    <div class="img-box col-md-3 col-sm-6 col-xs-6"> 
+      <% if Version.better.decending.third.present? %>
+        <% firstB = Version.better.decending.third %>
+        <% if firstB.photos.first.cloud %>
+          <img src="<%= firstB.photos.first.image_url %>" width="234" height="232" alt="image descraption"> 
+        <% else %>
+          <img src="<%= firstB.photos.first.photo_url %>" width="234" height="232" alt="image descraption"> 
+        <% end %>
+        <p><%= link_to firstB.name , version_path(firstB) , method: :get  , class: 'a-tag-text'%></p>
+      <% else %>
+        <img src="images/img02.jpg" width="234" height="232" alt="image descraption"> 
+        <p>Prayer area</p>   
+      <% end %>
+    </div>
+    <div class="img-box col-md-3 col-sm-6 col-xs-6"> 
+      <% if Version.better.decending.fourth.present? %>
+        <% firstB = Version.better.decending.fourth %>
+        <% if firstB.photos.first.cloud %>
+          <img src="<%= firstB.photos.first.image_url %>" width="234" height="232" alt="image descraption"> 
+        <% else %>
+          <img src="<%= firstB.photos.first.photo_url %>" width="234" height="232" alt="image descraption"> 
+        <% end %>
+        <p><%= link_to firstB.name , version_path(firstB) , method: :get  , class: 'a-tag-text'%></p>
+      <% else %>
+        <img src="images/img05.jpg" width="234" height="232" alt="image descraption">  
+        <p>Prayer area</p>  
+      <% end %>          
+    </div> -->
+    </div>
+    </section>
+    <% if @scrol == 'yes' %>
+      <% if @versions.count > 0 &&  ( @versions.last.photos.first.image_url.present? || @versions.last.photos.first.photo_url.match('.jpg') || @versions.first.photos.first.image_url.present? || @versions.first.photos.first.photo_url.match('.jpg') ) %>
+        <div id="result" class="has-success">
+          <p><span class="glyphicon glyphicon-search" style="font-size:28px; color:#fff; margin-right: 10px"></span> Displaying your search about: <%= @para %>.</p>
+        </div>
+      <% else %>
+        <div id="result" class="has-error">
+          <p><span class="glyphicon glyphicon-search" style="font-size:28px; color:#fff; margin-right: 10px"></span> Oops.. We can't find : <%= @para %>. Please, try to search again with different keywords</p>
+        </div>
+      <% end %>
+    <% end %>
+    <!-- <strong id="result">Search Result <%= @versions.present? ? @versions.count : "0" %> Rooms</strong>  -->
+</div>
+<div class="container">
+  <% if @versions.present? %>
+  <% @versions.each do |version|%>
+    <% if version.photos.first.image_url.present? || version.photos.first.photo_url.match('.jpg') %>
+    <article class="prodect-item">
+      <div class="row">
+        <div class="col-md-4 col-sm-6 col-xs-12">
+          <div class="photo"> 
+          <% if version.photos.first.cloud == false%>
+            <img src="<%= version.photos.first.photo_url %>" width="305" height="263" alt="image descration">
+          <% else %>
+            <img src="<%= version.photos.first.image_url %>" width="305" height="263" alt="image descration">
+          <% end %>
+          </div>
+        </div>
+        <div class="col-md-8 col-sm-6 col-xs-12">
+          <div class="item-detail">
+            <h1><%= link_to version.name , version_path(version) , method: :get  , class: 'a-tag-text-decoration' %></h1>
+            <h2><strong>Location Adderss:</strong> <%= version.street.present? ? version.street : "Refer to description" %> <%= version.floor.present? ? ", level #{version.floor}" : "" %></h2>
+            <p><%= strip_tags(version.description) %></p>
+            <span class="checkin">Check In<span class="dotes">:</span><span><%= version.room.checkins.count %></span></span>
+            <span class="post">Date Posted<span class="dotes">:</span><span><%= version.created_at.strftime("%d-%m-%Y") %></span></span> 
+            <span class="status">Status<span class="dotes">:</span><span><%= version.reports.count<5 ? "Available" : "Unavailable"  %></span></span>
+            <%= link_to 'View more', version_path(version) , method: :get , class: "view-btn"%>
+          </div>
+        </div>
+      </div>
+    </article>
+    <% end %>
+  <% end %>
+  <%= will_paginate @versions %>
+  <% end %>
+</div>
+  <!-- <article class="prodect-item">
+    <div class="row">
+      <div class="col-md-4 col-sm-6 col-xs-12">
+        <div class="photo"> <img src="images/img07_03.jpg" width="305" height="263" alt="image descration"> </div>
+      </div>
+      <div class="col-md-8 col-sm-6 col-xs-12">
+        <div class="item-detail">
+          <h1>Nanyang Polytechnic</h1>
+          <h2><strong>Location Adderss:</strong>Parkway East Hospital, level 2</h2>
+          <p>Parkway East Hospital, level 2 at Parkway East Medical Centre Blk (turn left after entering the main entrance) Small room which can accommodate 2-3 guests and its shared between muslimin and muslimah. Ablution can be taken at the toilet located beside the mushollah. Prayer mats, telekung and kain are provided. Slippers for ablution are also provided.</p>
+          <span class="checkin">Check In<span class="dotes">:</span><span>35</span></span>
+          <span class="post">Date Posted<span class="dotes">:</span><span>11-5-15</span></span> 
+          <span class="status">Status<span class="dotes">:</span><span>Under Renovation</span></span>
+          <a href="#" class="view-btn">View more</a> 
+        </div>
+      </div>
+    </div>
+  </article>
+  <article class="prodect-item">
+    <div class="row">
+      <div class="col-md-4 col-sm-6 col-xs-12">
+        <div class="photo"> <img src="images/img08_03.jpg" width="305" height="263" alt="image descration"> </div>
+      </div>
+      <div class="col-md-8 col-sm-6 col-xs-12">
+        <div class="item-detail">
+          <h1>Parkway East Medical Center</h1>
+          <h2><strong>Location Adderss:</strong>Parkway East Hospital, level 2</h2>
+          <p>Parkway East Hospital, level 2 at Parkway East Medical Centre Blk (turn left after entering the main entrance) Small room which can accommodate 2-3 guests and its shared between muslimin and muslimah. Ablution can be taken at the toilet located beside the mushollah. Prayer mats, telekung and kain are provided. Slippers for ablution are also provided.</p>
+          <span class="checkin">Check In<span class="dotes">:</span><span>35</span></span>
+          <span class="post">Date Posted<span class="dotes">:</span><span>11-5-15</span></span> 
+          <span class="status">Status<span class="dotes">:</span><span>Available</span></span> 
+          <a href="#" class="view-btn">View more</a> 
+        </div>
+      </div>
+    </div>
+  </article> -->
+  
+
+  <% if @scrol == "yes" %>
+    <script type="text/javascript">
+
+          console.log("Scrolling");
+          $('html, body').animate({
+              scrollTop: $("#result").offset().top
+          }, 800);
+    </script>
+  <% end %>

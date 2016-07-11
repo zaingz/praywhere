@@ -1,0 +1,239 @@
+
+<!--
+<p>
+  <strong>Name:</strong>
+  <%= @version.name %>
+</p>
+
+<p>
+  <strong>Street:</strong>
+  <%= @version.street %>
+</p>
+
+<p>
+  <strong>Floor:</strong>
+  <%= @version.floor %>
+</p>
+
+<p>
+  <strong>City:</strong>
+  <%= @version.city %>
+</p>
+
+<p>
+  <strong>Country:</strong>
+  <%= @version.country %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @version.description %>
+</p>
+
+<p>
+  <strong>Direction:</strong>
+  <%= @version.direction %>
+</p>
+
+<p>
+  <strong>Link:</strong>
+  <%= @version.link %>
+</p>
+
+<%= link_to 'Edit', edit_version_path(@version) %> |
+<%= link_to 'Back', :back %>
+<%= link_to 'Report', report_path %>
+
+-->
+
+
+
+<div class="r-content clearfix">
+      <div class="container r-container">
+          <div class="row">
+              <div class="col-md-7">
+                  <div class="parkway">
+                    <h3><%= @version.name %> <span style="font-weight: bold;">(<%= @version.country=="" ? "Singapore" : @version.country %>)</span></h3>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                  <div class="entry">
+                    <a href="<%= edit_version_path %>" class="edit-entry">edit this entry</a>
+                      <a href="<%= new_version_path %>" class="add-entry"><span class="glyphicon glyphicon-plus"></span>add entry</a>
+                  </div>
+                </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 col-sm-6 col-sx-12">
+                  <div class="form-border-box clearfix">
+                    <div class="bookmark">
+                      <a href="#">bookmark</a>
+                    </div>
+                      <h2><strong>Location Address:</strong><%= @version.street=="" ? "" : @version.street  %> <%= @version.city=="" ? "" : @version.city %> <%= @version.country=="" ? "Singapore" : @version.country %></h2>
+                        <p><%= @version.name %>, level <%= @version.floor %> at <%= @version.name %> (<%= @version.direction %>)<br><%= strip_tags(@version.description) %>
+                        </p>
+                        <span class="checkin">Check In<span class="dotes">: </span><span><%= @version.room.checkins.count %></span></span>
+                        <span class="post">Date Posted<span class="dotes">:</span><span><%= @version.created_at.strftime("%d-%m-%Y") %></span></span> 
+                        <span class="status">Status<span class="dotes">:</span><span><%= @version.reports.count<5 ? "Available" : "Unavailable"  %></span></span>
+                        <div class="share-icon">
+                          <strong>Share This</strong>
+                          <a href="https://www.facebook.com/"><%= image_tag("facebook-icon.png", :alt => "FB") %></a> 
+                        <a href="https://www.twitter.com/"><%= image_tag("twitter-icon.png", :alt => "TW") %></a> 
+                        <a href="https://www.google.com/"><%= image_tag("google-icon.png", :alt => "GOO") %></a>
+                        </div>
+                        <div class="voteup">
+                          <strong>vote up +1</strong>
+                            <div class="voteup-main">
+                              <a href="<%= voteup_path %>" class="photo"><%= image_tag("icon_07.png", :alt => "ICON") %></a>
+                                <div class="detail">
+                                <p style="font-size: 10px;">This entry has been edited and has an alternate
+version (Check below), Help us improve our list!, if you
+find this accurate and helpful then please
+vote this up to replace the other one</p>
+</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-sx-12">
+                  <ul class="nav nav-tabs responsive hidden-xs hidden-sm" id="tabs-1">
+                      <li class="active"><a data-toggle="tab" href="#map" onclick="reload();">map</a></li>
+                      <li class=""><a data-toggle="tab" href="#direction">get here</a></li>
+                      <li class=""><a data-toggle="tab" href="#video">video</a></li>
+                      <li class=""><a data-toggle="tab" href="#report">report</a></li>
+                  </ul>
+                  <div class="form-border">
+                    <div class="tab-content">
+                      <div id="map" class="tab-pane fade in active">
+                        <script src="http://maps.googleapis.com/maps/api/js"></script>
+                        <!-- <script>
+                        function initialize() {
+                          var mapProp = {
+                            center:new google.maps.LatLng(51.508742,-0.120850),
+                            zoom:14,
+                            mapTypeId:google.maps.MapTypeId.ROADMAP
+                          };
+                          var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+                        }
+                        google.maps.event.addDomListener(window, 'load', initialize);
+                        </script> -->
+<script type="text/javascript"> 
+
+   var address = '<%= @version.name%>, <%= @version.street%>, <%= @version.city%>, <%= @version.country%>';
+
+   var map = new google.maps.Map(document.getElementById('map'), { 
+       mapTypeId: google.maps.MapTypeId.ROADMAP,
+       zoom: 18
+   });
+
+   var geocoder = new google.maps.Geocoder();
+
+   geocoder.geocode({
+      'address': address
+   }, 
+   function(results, status) {
+      if(status == google.maps.GeocoderStatus.OK) {
+         new google.maps.Marker({
+            position: results[0].geometry.location,
+            map: map
+         });
+         map.setCenter(results[0].geometry.location);
+      }
+   });
+
+   </script> 
+                        <div id="googleMap" style="width:inherit;height:230px;"></div>
+                      </div>
+                      <div id="direction" class="tab-pane fade">
+                        <br>
+                        <p><%= @version.direction %></p>
+                      </div>
+                      <div id="video" class="tab-pane fade">
+                        <% if @version.link.present? %>
+                          <% if @version.link.include? "watch?v=" %>
+                            <% url =  @version.link.split('watch?v=', @version.link.length) %>
+                            <% p source = "https://www.youtube.com/embed/"+url[1]+"?rel=0" %>
+                            <iframe width="420px" height="227px" src="<%= source %>" allowfullscreen></iframe>
+                          <% else %>
+                            <%= image_tag("image_not.png", height: '227px' , width: '420px' , :alt => "Not Available") %>
+                          <% end %>
+                        <% else %>
+                          <%= image_tag("image_not.png", height: '227px' , width: '420px', :alt => "Not Available") %>
+                        <% end %>
+                        
+                      </div>
+                      <div id="report" class="tab-pane fade">
+                        <h4 style="color: #009ce2">Prayer area no longer exists? <strong style="color: #f29100">Help Us</strong> update this entry</h4>
+                        <%= form_tag( action: "creport") do%>
+                          <%= radio_button_tag(:status, "0") %>
+                          <%= label_tag(:status_child, " Prayer room no longer exist" ,class: "lovely-radio") %><br>
+                          <%= radio_button_tag(:status, "1") %>
+                          <%= label_tag(:status_adult, " Prayer room under renovation",class: "lovely-radio") %><br>
+                          <%= radio_button_tag(:status, "2") %>
+                          <%= label_tag(:status_adult, " Inappropiate content",class: "lovely-radio") %><br>
+                          <%= submit_tag "SUBMIT" , :class => "youtube" %>
+                        <% end %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                
+            </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="galary">
+                    <% if @version.photos.first.present? %>
+                      <% if @version.photos.first.cloud %>
+                        <img src="<%= @version.photos.first.image_url %>" width="334" height="253" > 
+                      <% else %>
+                        <img src="<%= @version.photos.first.photo_url %>" width="334" height="253" >
+                      <% end %>
+                    <% else %>
+                      <%= image_tag("img10.jpg", height: '253', width: '334' , :alt => "ICON") %>
+                    <% end %>
+                </div>
+            </div>
+          <div class="col-md-4">
+              <div class="galary">
+                  <% if @version.photos.second.present? %>
+                      <% if @version.photos.second.cloud %>
+                        <img src="<%= @version.photos.second.image_url %>" width="334" height="253" > 
+                      <% else %>
+                        <img src="<%= @version.photos.second.photo_url %>" width="334" height="253" >
+                      <% end %>
+                  <% else %>
+                    <%= image_tag("img11.jpg", height: '253', width: '334' , :alt => "ICON") %>
+                  <% end %>
+                </div>
+            </div>
+          <div class="col-md-4">
+              <div class="galary">
+                  <% if @version.photos.third.present? %>
+                    <% if @version.photos.third.cloud %>
+                      <img src="<%= @version.photos.third.image_url %>" width="334" height="253" > 
+                    <% else %>
+                      <img src="<%= @version.photos.third.photo_url %>" width="334" height="253" >
+                    <% end %>
+                  <% else %>
+                    <%= image_tag("img12.jpg", height: '253', width: '334' , :alt => "ICON") %>
+                  <% end %>
+                </div>
+            </div>
+      </div>
+        </div>
+        <div class="container">
+        <div class="org-btn">
+          <a class="<%= @version.room.versions.first.id==@version.id ? "active" : "" %>" href="<%= version_path(@version.room.versions.first) %>">original</a>
+            <% if @version.room.versions.count > 1 %>
+              <a class="<%= @version.room.versions.last.id==@version.id ? "active" : "" %>" href="<%= version_path(@version.room.versions.last) %>">edited</a>
+            <% end %>
+            </div>
+      </div>
+    </div>
+
+<script>
+function reload() {
+    location.reload();
+}
+</script>
